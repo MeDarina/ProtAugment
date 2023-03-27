@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-
+'''
 # Activate environment
 source .venv/bin/activate
 
@@ -18,6 +18,6 @@ command -v nvidia-smi >/dev/null && {
 } || {
     :
 }
-
+'''
 # Run the script
 PYTHONPATH=. python models/proto/protaugment.py $@
