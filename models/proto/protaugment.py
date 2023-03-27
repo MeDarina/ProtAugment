@@ -38,7 +38,7 @@ logger.setLevel(logging.DEBUG)
 
 warnings.simplefilter('ignore')
 
-device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
+device = torch.device("cuda:0") #if torch.cuda.is_available() else torch.device("cpu")
 
 
 class ProtAugmentNet(nn.Module):
@@ -301,7 +301,7 @@ def run_protaugment(
             # ---------------------
             # Load paraphrase model
             # ---------------------
-            paraphrase_model_device = torch.device("cpu") if "20newsgroup" in data_path else torch.device("cuda")
+            paraphrase_model_device = torch.device("cpu:1") #if "20newsgroup" in data_path else torch.device("cuda")
             logger.info(f"Paraphrase model device: {paraphrase_model_device}")
             paraphrase_tokenizer = AutoTokenizer.from_pretrained(paraphrase_tokenizer_name_or_path)
             if paraphrase_drop_strategy == "unigram":
