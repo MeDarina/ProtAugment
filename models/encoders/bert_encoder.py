@@ -12,7 +12,7 @@ logger.setLevel(logging.DEBUG)
 
 warnings.simplefilter('ignore')
 
-device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
+# device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
 
 
 class BERTEncoder(nn.Module):
@@ -20,7 +20,7 @@ class BERTEncoder(nn.Module):
         super(BERTEncoder, self).__init__()
         logger.info(f"Loading Encoder @ {config_name_or_path}")
         self.tokenizer = AutoTokenizer.from_pretrained(config_name_or_path)
-        self.bert = AutoModel.from_pretrained(config_name_or_path).to(device)
+        self.bert = AutoModel.from_pretrained(config_name_or_path)
         logger.info(f"Encoder loaded.")
         self.warmed: bool = False
 
@@ -37,13 +37,18 @@ class BERTEncoder(nn.Module):
             truncation=True,
             padding=padding
         )
-        batch = {k: v.to(device) for k, v in batch.items()}
-
+        
+        batch = {k: v.to(self.bert.device) for k, v in batch.items()}
+        
         fw = self.bert.forward(**batch)
         return fw.pooler_output
 
 
 def test():
-    encoder = BERTEncoder("bert-base-cased")
-    sentences = ["this is one", "why not another"]
+    encoder = BERTEncoder("tdopierre/ProtAugment-LM-BANKING77").to("cuda:0")
+    sentences = ["this is one"] * 45
     encoder.embed_sentences(sentences)
+
+
+if __name__ == "__main__":
+    test()
