@@ -17,4 +17,4 @@ class USEEmbedder:
         return self.embed_many([sentence])
 
 
-use_embedder = USEEmbedder(force_cpu=True)
+# use_embedder = USEEmbedder(force_cpu=True)
