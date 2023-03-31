@@ -12,7 +12,7 @@ import torch
 from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 import logging
 import time
-from models.use import USEEmbedder
+# from models.use import USEEmbedder
 
 device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
 
